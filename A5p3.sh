@@ -7,3 +7,4 @@ do
 		echo $i "*" $j = $k
 	done
 done
+
