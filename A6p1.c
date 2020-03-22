@@ -2,23 +2,20 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-int len =  60;
-int n, part;
-int a;
+int len = 60;
+int n, part, a;
 
 void  *uppercase_to_lowercase(void* arg) {
     
 	char *str = (char*) arg;
-	
-	if (a > n) return 0;
 	 
-	for(int i = a*part; i < ((part * a) + part);i++) {
-	    str[i] = str[i] + 32;
+	for(int i = a*part; i < ((part * a) + part); i++) {
+	    str[i] += 32;
+	    str[i] = 'z' - str[i] + 'a';
 	}
     a++;
 }
 int main(int argc, char *argv[]) {
-	
 	
 	int tmp;
 	n = atoi(argv[1]);
@@ -27,7 +24,6 @@ int main(int argc, char *argv[]) {
 		return 0;
 		}
 		
-	
 	part = len / n;
 	pthread_t thread[n];
 	char str[len];
@@ -49,7 +45,7 @@ int main(int argc, char *argv[]) {
 			    return 1;
 		    }
 	}
-    
+     
 	for (int i = 0; i < n; i++) {
 		tmp = pthread_join(thread[i], NULL);
 			if (tmp != 0){
