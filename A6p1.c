@@ -2,28 +2,33 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-#define len 60
+int len =  60;
+int n, part;
+int a;
 
 void  *uppercase_to_lowercase(void* arg) {
-
+    
 	char *str = (char*) arg;
-
-    for (int i = 0; i < len;i++) {
-		printf("%c", str[i]);
-		}
-
+	
+	if (a > n) return 0;
+	 
+	for(int i = a*part; i < ((part * a) + part);i++) {
+	    str[i] = str[i] + 32;
+	}
+    a++;
 }
 int main(int argc, char *argv[]) {
 	
-	int tmp;
-	int n = atoi(argv[1]);
 	
+	int tmp;
+	n = atoi(argv[1]);
 	if ((n < 2) || (n > 6)) {
 		printf("Integer value must between 2 and 6, inclusive");
 		return 0;
 		}
 		
 	
+	part = len / n;
 	pthread_t thread[n];
 	char str[len];
 	
@@ -36,13 +41,13 @@ int main(int argc, char *argv[]) {
 		}
 	
 	printf("\nComplementary lower case string:\n");
-		
+	
 	for (int i = 0; i < n; i++) {
-		tmp = pthread_create(&thread[i], NULL, uppercase_to_lowercase, &str);
-		if (tmp != 0){
-			printf("Creating thread %d failed\n", i);
-			return 1;
-		}
+	    tmp = pthread_create(&thread[i], NULL, uppercase_to_lowercase, &str);
+		    if (tmp != 0){
+			    printf("Creating thread %d failed\n", i);
+			    return 1;
+		    }
 	}
     
 	for (int i = 0; i < n; i++) {
@@ -52,5 +57,10 @@ int main(int argc, char *argv[]) {
 				return 1;
 			}
 	}
+	
+	for (int i = 0; i < len;i++) {
+		printf("%c", str[i]);
+		}
+		
 	return 0;
 }
